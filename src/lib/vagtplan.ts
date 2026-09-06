@@ -32,7 +32,7 @@ export function transformSpreadsheet(
 
   let m;
   while (rows.length) {
-    m = rows.shift()?.match(/(\w+) (\d+)/);
+    m = rows.shift()?.match(/(\w+) +(\d+)/);
     if (m) break;
   }
   if (!m) throw new Error("Could not parse month");

@@ -1,0 +1,19 @@
+.ant-upload-list.ant-upload-list-text {
+  color: #666;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.uppercase-input {
+  text-transform: uppercase;
+}
+
+.uppercase-input::placeholder {
+  text-transform: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::placeholder {
+    color: rgba(255, 255, 255, 0.65) !important;
+  }
+}

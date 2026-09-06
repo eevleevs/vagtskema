@@ -1,14 +1,17 @@
-import { assertEquals } from '@std/assert'
+import { expect, it } from "vitest";
+import { readdirSync, readFileSync } from "node:fs";
+import { extension, transformSpreadsheet } from "../src/lib/vagtplan";
 
-import { extension, main } from '../vagtplan.ts'
+const files = readdirSync("tests").filter(
+  (name) => !name.startsWith("~$") && extension.test(name),
+);
 
-for (const { name } of Deno.readDirSync('tests')) {
-  if (name.startsWith('~$') || !name.match(extension)) continue
-  Deno.test(name, () =>
-    assertEquals(
-      main(`tests/${name}`),
-      JSON.parse(
-        Deno.readTextFileSync(`tests/${name}`.replace(extension, '.json')),
-      ),
-    ))
+for (const name of files) {
+  it(name, () => {
+    const data = new Uint8Array(readFileSync(`tests/${name}`));
+    const expected = JSON.parse(
+      readFileSync(`tests/${name.replace(extension, ".json")}`, "utf8"),
+    );
+    expect(transformSpreadsheet(data, "SG")).toEqual(expected);
+  });
 }
